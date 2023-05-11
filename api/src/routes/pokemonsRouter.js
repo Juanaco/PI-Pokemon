@@ -1,18 +1,14 @@
 const {Router} = require("express");
+const { getPokemonsHandler, getDetailHandler, createPokemonHandler } = require("../handlers/pokemonHandlers");
+
 
 const pokemonsRouter = Router();
 
-pokemonsRouter.get("/",  (req, res) =>{
-    res.status(200).send("NIY: TODOS los POKEMON");
-});
+pokemonsRouter.get("/", getPokemonsHandler);
 
-pokemonsRouter.get("/:idPokemon", (req, res) =>{
-        res.status(200).send("NIY: El detalle del pokemon buscado");
-    });
+pokemonsRouter.get("/:idPokemon", getDetailHandler);
 
-pokemonsRouter.post("/", (req, res) =>{
-    res.status(202).send("NIY: Pokemon creado");
-});
+pokemonsRouter.post("/", createPokemonHandler);
 
 pokemonsRouter.get("pokemons/name?=", (req, res) =>{
     res.status(200).send("NIY: filtrar POKEMON por nombre")
