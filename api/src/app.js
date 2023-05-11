@@ -22,6 +22,10 @@ server.use((req, res, next) => {
   next();
 });
 
+server.use((req, res, next) => {
+  console.log("estoy pasando por el middleware");
+  next();
+})
 server.use('/', routes);
 
 // Error catching endware.
