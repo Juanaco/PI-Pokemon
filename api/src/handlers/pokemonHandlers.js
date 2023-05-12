@@ -1,17 +1,27 @@
-const { createPokemon } = require("../controllers/pokemonsController");
+const { createPokemon, getPokemonById, getAllPokemon, searchPokemonsByName} = require("../controllers/pokemonsController");
 
-const getPokemonsHandler =  (req, res) =>{
+const getPokemonsHandler = async (req, res) =>{
     const {name} = req.query;
 
-    if(name)    res.status(200).send(`NIY: Buscar todos los Pokemon con nombre:${name}`);
-    else   res.status(200).send("NIY: Todos los Pokemones");
+    const results = name ? searchPokemonsByName(name) : await getAllPokemon() 
 
+    res.status(200).json(results);
 
 };
-const getDetailHandler = (req, res) =>{
-    const {id} = req.params;
 
-    res.status(200).send(`Va a mandar el detalle del pokemon de id: ${id}`);
+const getDetailHandler = async (req, res) =>{
+    const {id} = req.params;
+    
+    const source = isNaN(id) ? "bdd" : "api";
+    
+    try {
+        const pokemon = await getPokemonById(id, source);
+        res.status(200).json(pokemon);
+    } catch (error) {
+        res.status(400).json({error: error.message})   
+    }
+
+
 };
 
 const createPokemonHandler = async (req, res) =>{
