@@ -53,15 +53,50 @@ const getAllPokemon = async () =>{
     const databasePokemon = await Pokemon.findAll();
     
     const apiPokemons = await getPokemonsApi();
-    console.log(apiPokemons)
+    
 
     return [...databasePokemon, ...apiPokemons];
 
 
 };
 
-const searchPokemonsByName = (name) =>{
+const pokemonName = async (name) =>{
 
+    const apiPoke = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+    const pokeArray = [];
+    pokeArray.push(apiPoke)
+    const filteredArray = pokeArray.map((p) => {
+        return {
+            id: p.data.id,
+            name: p.data.name,
+            image: p.data.sprites.other.dream_world.front_default,  // url imagen
+            hp: p.data.stats[0].base_stat,
+            attack: p.data.stats[1].base_stat,
+            defense: p.data.stats[2].base_stat,
+            speed: p.data.stats[3].base_stat,
+            height: p.data.height,
+            weight: p.data.weight,
+            types: p.data.types.map((t) => {
+                    return {
+                        name: t.type.name
+                    }
+            })
+        }
+    });
+    return [...filteredArray]; 
+}
+
+const searchPokemonsByName = async (name) =>{
+
+
+    const databasePokemon = await Pokemon.findAll({where:{ name }});
+
+    
+
+    const apiPokemons = await pokemonName(name);
+    
+    console.log(apiPokemons)
+    return [...databasePokemon, ...apiPokemons]
 };
 
 const createPokemon = async (name, image, hp, attack, defense, speed, height, weight) =>

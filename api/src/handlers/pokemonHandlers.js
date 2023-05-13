@@ -2,10 +2,14 @@ const { createPokemon, getPokemonById, getAllPokemon, searchPokemonsByName} = re
 
 const getPokemonsHandler = async (req, res) =>{
     const {name} = req.query;
+    try {
+        const results = name ? await searchPokemonsByName(name) : await getAllPokemon() 
+        res.status(200).json(results);
+        
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
 
-    const results = name ? searchPokemonsByName(name) : await getAllPokemon() 
-
-    res.status(200).json(results);
 
 };
 
