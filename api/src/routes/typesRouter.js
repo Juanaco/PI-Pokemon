@@ -1,10 +1,9 @@
 const {Router}= require("express");
+const { getTypesHandler } = require("../handlers/typeHandlers");
 
 const typesRouter = Router();
 
 
-typesRouter.get("/", (req, res) => {
-    res.status(200).send("NIY: acá se traen los TYPES de la API y se guardan en BDD")
-});
+typesRouter.get("/", getTypesHandler);
 
 module.exports= typesRouter;

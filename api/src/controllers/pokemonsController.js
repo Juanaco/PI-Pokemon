@@ -61,7 +61,7 @@ const getAllPokemon = async () =>{
 };
 
 const pokemonName = async (name) =>{
-
+    
     const apiPoke = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
     const pokeArray = [];
     pokeArray.push(apiPoke)
@@ -83,26 +83,30 @@ const pokemonName = async (name) =>{
             })
         }
     });
-    return [...filteredArray]; 
+    return filteredArray; 
 }
 
 const searchPokemonsByName = async (name) =>{
-
-
-    const databasePokemon = await Pokemon.findAll({where:{ name }});
-
     
-
     const apiPokemons = await pokemonName(name);
-    
-    console.log(apiPokemons)
+    // ***********************************************
+    // apiPokemons rompe la búsqueda si busco un nombre de la BDD que no esté en la API 
+    const databasePokemon = await Pokemon.findAll({where:{ name }});
+        
+       
     return [...databasePokemon, ...apiPokemons]
 };
 
 const createPokemon = async (name, image, hp, attack, defense, speed, height, weight) =>
+// ************************************
+// Faltan los datos del modelo TYPE en el formulario 
+// ****************************************
     await Pokemon.create({name, image, hp, attack, defense, speed, height, weight});
 
 
+
+    // ********************
+    // hay que filtrar los resultados , cómo getAllpokemon
 const getPokemonById = async (id, source) =>{
     const pok = source === "api" ? 
     (await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)).data

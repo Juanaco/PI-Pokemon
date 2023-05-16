@@ -2,6 +2,7 @@ const { createPokemon, getPokemonById, getAllPokemon, searchPokemonsByName} = re
 
 const getPokemonsHandler = async (req, res) =>{
     const {name} = req.query;
+    
     try {
         const results = name ? await searchPokemonsByName(name) : await getAllPokemon() 
         res.status(200).json(results);
