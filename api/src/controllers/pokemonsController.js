@@ -1,15 +1,15 @@
 const { Pokemon } = require("../db");
 const axios = require("axios");
 
-const construirPokemon = (pokemon) => {
-    
-}
+// ***********
+// armar esta funcion con el filtro de resultados sin el map de "mapPokemons"
+const construirPokemon = (pokemon) => {};
 
 const mapPokemons = (pokemons) => {
   return pokemons.map(
     // Extraer esta funcion a una nueva
     (pokemon) => {
-        return {
+      return {
         id: pokemon.data.id,
         name: pokemon.data.name,
         image: pokemon.data.sprites.other.dream_world.front_default, // url imagen
@@ -20,11 +20,11 @@ const mapPokemons = (pokemons) => {
         height: pokemon.data.height,
         weight: pokemon.data.weight,
         types: pokemon.data.types.map((t) => {
-            return {
+          return {
             name: t.type.name,
-            };
+          };
         }),
-        }; // return
+      }; // return
     }
   ); // map
 };
